@@ -4,10 +4,622 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ahmed Fahim Kabir - Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mediaqueries.css">
+    <style>
+        /* Import Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* CSS Variables */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-light: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.8);
+            --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.3);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-gradient);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -2;
+            animation: backgroundShift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% { opacity: 0.3; transform: scale(1) rotate(0deg); }
+            100% { opacity: 0.6; transform: scale(1.1) rotate(2deg); }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(odd) {
+            animation-duration: 8s;
+            animation-delay: -2s;
+        }
+
+        .particle:nth-child(even) {
+            animation-duration: 10s;
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.7; }
+            25% { transform: translateY(-20px) translateX(10px) scale(1.2); opacity: 1; }
+            50% { transform: translateY(-10px) translateX(-5px) scale(0.8); opacity: 0.8; }
+            75% { transform: translateY(-30px) translateX(15px) scale(1.1); opacity: 0.9; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        #desktop-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 25px;
+            opacity: 0;
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-light);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before {
+            opacity: 1;
+        }
+
+        /* Mobile Navigation */
+        #hamburger-nav {
+            display: none;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Profile Section */
+        #profile {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4rem;
+            text-align: center;
+        }
+
+        .section__pic-container {
+            position: relative;
+        }
+
+        .section__pic-container img {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid transparent;
+            background: var(--primary-gradient);
+            padding: 4px;
+            box-shadow: 
+                0 0 50px rgba(102, 126, 234, 0.4),
+                inset 0 0 50px rgba(255, 255, 255, 0.1);
+            animation: profileGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes profileGlow {
+            0% { box-shadow: 0 0 50px rgba(102, 126, 234, 0.4), inset 0 0 50px rgba(255, 255, 255, 0.1); }
+            100% { box-shadow: 0 0 80px rgba(255, 119, 198, 0.6), inset 0 0 50px rgba(255, 255, 255, 0.2); }
+        }
+
+        .section__text h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 1rem 0;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.7)); }
+            100% { filter: drop-shadow(0 0 40px rgba(255, 119, 198, 0.9)); }
+        }
+
+        .section__text__p1, .section__text__p2 {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            opacity: 0.9;
+        }
+
+        .section__text__p2 {
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-color-1 {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-color-2 {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        .btn-color-2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--accent-gradient);
+            border-radius: 50px;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.6s;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Social Icons */
+        #socials-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        #socials-container img {
+            width: 3rem;
+            height: 3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 50%;
+            padding: 0.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+
+        #socials-container img:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Glass Card Effect */
+        .details-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .details-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--primary-gradient);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .details-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .details-container:hover::before {
+            opacity: 1;
+        }
+
+        /* Titles */
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section__text__p1 {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Skills Section */
+        .article-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .article-container article {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .article-container article:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .icon {
+            width: 2rem;
+            height: 2rem;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Projects Section */
+        .color-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: var(--transition);
+        }
+
+        .color-container:hover .project-img {
+            transform: scale(1.05);
+        }
+
+        /* Contact Section */
+        .contact-info-upper-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            transition: var(--transition);
+        }
+
+        .contact-info-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .contact-info-container a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Arrow */
+        .arrow {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            transition: var(--transition);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .arrow:hover {
+            transform: translateX(-50%) scale(1.2);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 1024px) {
+            #profile {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .section__text h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            #desktop-nav {
+                display: none;
+            }
+            
+            #hamburger-nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .hamburger-menu {
+                position: relative;
+            }
+            
+            .hamburger-icon {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                cursor: pointer;
+            }
+            
+            .hamburger-icon span {
+                width: 25px;
+                height: 3px;
+                background: var(--text-light);
+                transition: var(--transition);
+            }
+            
+            .menu-links {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                border: 1px solid var(--glass-border);
+                border-radius: 10px;
+                padding: 1rem;
+                list-style: none;
+                display: none;
+            }
+            
+            .menu-links.open {
+                display: block;
+            }
+            
+            .menu-links li {
+                margin: 0.5rem 0;
+            }
+            
+            .menu-links a {
+                color: var(--text-light);
+                text-decoration: none;
+                padding: 0.5rem 1rem;
+                display: block;
+                border-radius: 5px;
+                transition: var(--transition);
+            }
+            
+            .menu-links a:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .section__text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-info-upper-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-gradient);
+        }
+    </style>
 </head>
 <body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
     <nav id="desktop-nav">
         <div class="logo">Ahmed Fahim Kabir</div>
         <div>
@@ -21,6 +633,7 @@
             </ul>
         </div>
     </nav>
+    
     <nav id="hamburger-nav">
         <div class="logo">Ahmed Fahim Kabir</div>
         <div class="hamburger-menu">
@@ -39,30 +652,24 @@
             </div>
         </div>
     </nav>
+    
     <section id="profile">
         <div class="section__pic-container">
-            <img src="./assets/profile-pic.png" alt="Ahmed Fahim Kabir profile picture"/>
+            <img src="assets/profile-pic.png" alt="Ahmed Fahim Kabir profile picture"/>
         </div>
         <div class="section__text">
             <p class="section__text__p1">Hello I'm</p>
             <h1 class="title">Ahmed Fahim Kabir</h1>
             <p class="section__text__p2">Full-Stack Developer</p>
             <div class="btn-container">
-                <button 
-                    class="btn btn-color-2" 
-                    onclick="window.open('./assets/resume.pdf')"
-                    >
-                    Download CV
-                </button>
-                <button
-                    class="btn btn-color-1"
-                    onclick= "location.href='./#contact'"
-                    >Contact Info
-                </button>
+                <button class="btn btn-color-2" onclick="window.open('./assets/resume.pdf')">Download CV</button>
+                <button class="btn btn-color-1"
+                onclick="location.href='#contact'" 
+                >Contact Info</button>
             </div>
-            <div id = "socials-container">
+            <div id="socials-container">
                 <img 
-                    src="./assets/linkedin.png" 
+                    src="./assets/linkedin.jpeg" 
                     alt="My linkedin profile"
                     class="hamburger-icon" 
                     onclick="location.href='https://www.linkedin.com/in/fahim-afk/'" 
@@ -82,29 +689,15 @@
         <h1 class="title">About Me</h1>
         <div class="section-container">
             <div class="section__pic-container">
-                <img 
-                    src="./assets/about-pic.png"
-                    alt="Profile Picture"
-                    class="about-pic"
-                />            
+                <img src="assets/about-pic.png" alt="Profile Picture" class="about-pic"/>            
             </div>
             <div class="about-details-container">
-                <div class="about-containers">
+                <div class="about-containers" style="display: flex; gap: 2rem; margin-bottom: 2rem;">
                     <div class="details-container">
-                        <img 
-                            src="./assets/experience.png"
-                            alt="experience-icon"
-                            class="icon"
-                        />
                         <h3>Experience</h3>
                         <p style="font-size: 1.3rem;">3+ years of hands-on experience<br /> Full Stack Development</p>
                     </div>
                     <div class="details-container">
-                        <img 
-                            src="./assets/education.png"
-                            alt="Education Icon"
-                            class="icon"
-                        />
                         <h3>Education</h3>
                         <p style="font-size: 1.3rem;">4th Year BSc. CSE Student <br /> at Brac University, Dhaka</p>
                     </div>                        
@@ -116,52 +709,47 @@
                 </div>
             </div>
         </div>
-        <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#skills'"
-        />
+        <div class="arrow" onclick="location.href='./#skills'">⬇</div>
     </section>  
     
     <section id="skills">
         <p class="section__text__p1">Explore My</p>
         <h1 class="title">Technical Skills</h1>
         <div class="experience-details-container">
-            <div class="about-containers">
+            <div class="about-containers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Programming Languages & DSA</h2>
+                    <h2 style="margin-bottom: 1rem;">Programming Languages & DSA</h2>
                     <div class="article-container">
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>JavaScript</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>TypeScript</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Python</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Data Structures & Algorithms</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>OOP</h3>
                                 <p>Expert</p>
@@ -170,52 +758,52 @@
                     </div>
                 </div>
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Frontend Development</h2>
+                    <h2 style="margin-bottom: 1rem;">Frontend Development</h2>
                     <div class="article-container">
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>React.js</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Next.js</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>HTML5</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Tailwind CSS</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Bootstrap 4</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>RTK Query</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Framer Motion</h3>
                                 <p>Intermediate</p>
@@ -227,54 +815,54 @@
         </div>
         <br>
         <div class="experience-details-container">
-            <div class="about-containers">
+            <div class="about-containers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Backend Development</h2>
+                    <h2 style="margin-bottom: 1rem;">Backend Development</h2>
                     <div class="article-container">
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Node.js</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Express.js</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Python Flask</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>PHP</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>MongoDB</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>MySQL</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>PostgreSQL</h3>
                                 <p>Intermediate</p>
@@ -283,73 +871,73 @@
                     </div>
                 </div>
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Tools & Technologies</h2>
+                    <h2 style="margin-bottom: 1rem;">Tools & Technologies</h2>
                     <div class="article-container">
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Git & GitHub</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>JWT</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Clerk Auth</h3>
                                 <p>Expert</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Stripe API</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>OpenAI API</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Prisma</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Redis</h3>
                                 <p>Basic</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Kafka</h3>
                                 <p>Basic</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>Firebase</h3>
                                 <p>Intermediate</p>
                             </div>
                         </article>
                         <article>
-                            <img src="./assets/checkmark.png" alt="Skill Icon" class="icon"/>
+                            <div class="icon">✓</div>
                             <div>
                                 <h3>AWS</h3>
                                 <p>Basic</p>
@@ -359,22 +947,17 @@
                 </div>
             </div>
         </div>
-        <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#work-experience'"
-        />
+        <div class="arrow" onclick="location.href='./#work-experience'">⬇</div>
     </section>
 
     <section id="work-experience">
         <p class="section__text__p1">My Professional</p>
         <h1 class="title">Work Experience</h1>
         <div class="experience-details-container">
-            <div class="about-containers">
+            <div class="about-containers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 2rem;">
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Part-time Full Stack Developer</h2>
-                    <h3 style="color: #555; margin-bottom: 1rem;">Kollaborate | Feb 2024 – Aug 2024</h3>
+                    <h2 style="margin-bottom: 1rem;">Part-time Full Stack Developer</h2>
+                    <h3 style="color: #ccc; margin-bottom: 1rem;">Kollaborate | Feb 2024 – Aug 2024</h3>
                     <div class="text-container">
                         <ul style="text-align: left; padding-left: 2rem; font-size: 1.2rem; line-height: 1.6;">
                             <li>Developed full-stack MERN applications using MongoDB, Express.js, React.js, and Node.js</li>
@@ -385,8 +968,8 @@
                     </div>
                 </div>
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Full Stack Developer</h2>
-                    <h3 style="color: #555; margin-bottom: 1rem;">Self-Directed Projects & Team Leadership | 2022 – Present</h3>
+                    <h2 style="margin-bottom: 1rem;">Full Stack Developer</h2>
+                    <h3 style="color: #ccc; margin-bottom: 1rem;">Self-Directed Projects & Team Leadership | 2022 – Present</h3>
                     <div class="text-container">
                         <ul style="text-align: left; padding-left: 2rem; font-size: 1.2rem; line-height: 1.6;">
                             <li>Led development of 7+ full-stack applications using MERN stack, Flask, PHP, and Next.js</li>
@@ -400,19 +983,14 @@
                 </div>
             </div>
         </div>
-        <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#projects'"
-        />
+        <div class="arrow" onclick="location.href='./#projects'">⬇</div>
     </section>
     
     <section id="projects">
         <p class="section__text__p1">Browse My Recent</p>
         <h1 class="title">Projects</h1>
         <div class="experience-details-container">
-            <div class="about-containers">
+            <div class="about-containers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
                 <div class="details-container color-container">
                     <div class="article-container">
                         <img
@@ -421,20 +999,14 @@
                             class="project-img"
                         />
                     </div>
-                    <h2 class="experience-sub-title project-title">FitBuzz - Fitness Planner SAAS</h2>
+                    <h2 style="margin: 1rem 0;">FitBuzz - Fitness Planner SAAS</h2>
                     <div class="btn-container">
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/csfahim007/FITbUZZ-A-Fitness-Planner-App'"
-                        >
-                        Github
-                        </button>
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://fitbuzz-frontend.onrender.com'"
-                        >
-                        Live Demo
-                        </button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://github.com/csfahim007/FITbUZZ-A-Fitness-Planner-App'"
+                        >Github</button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://fitbuzz-frontend.onrender.com'"
+                        >Live Demo</button>
                     </div>
                 </div>
                 <div class="details-container color-container">
@@ -445,20 +1017,14 @@
                             class="project-img"
                         />
                     </div>
-                    <h2 class="experience-sub-title project-title">FoodBite - Food Delivery Platform</h2>
+                    <h2 style="margin: 1rem 0;">FoodBite - Food Delivery Platform</h2>
                     <div class="btn-container">
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/csfahim007/FoodBite'"
-                        >
-                        Github
-                        </button>
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://foodbite-frontend-uhdd.onrender.com/'"
-                        >
-                        Live Demo
-                        </button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://github.com/csfahim007/FoodBite'"
+                        >Github</button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://foodbite-frontend-uhdd.onrender.com/'"
+                        >Live Demo</button>
                     </div>
                 </div>
                 <div class="details-container color-container">
@@ -469,27 +1035,21 @@
                             class="project-img"
                         />
                     </div>
-                    <h2 class="experience-sub-title project-title">Crime Hunt - Crime Reporting Platform</h2>
+                    <h2 style="margin: 1rem 0;">Crime Hunt - Crime Reporting Platform</h2>
                     <div class="btn-container">
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/csfahim007/Crime-Hunt'"
-                        >
-                        Github
-                        </button>
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://crime-hunt.onrender.com'"
-                        >
-                        Live Demo
-                        </button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://github.com/csfahim007/Crime-Hunt'"
+                        >Github</button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://crime-hunt.onrender.com'"
+                        >Live Demo</button>
                     </div>
                 </div>
             </div>
         </div>
         <br>
         <div class="experience-details-container">
-            <div class="about-containers">
+            <div class="about-containers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
                 <div class="details-container color-container">
                     <div class="article-container">
                         <img
@@ -498,20 +1058,14 @@
                             class="project-img"
                         />
                     </div>
-                    <h2 class="experience-sub-title project-title">BlueMartin - Tourism Booking System</h2>
+                    <h2 style="margin: 1rem 0;">BlueMartin - Tourism Booking System</h2>
                     <div class="btn-container">
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/csfahim007/BlueMartin-Booking-App'"
-                        >
-                        Github
-                        </button>
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='#'"
-                        >
-                        Live Demo
-                        </button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://github.com/csfahim007/BlueMartin-Booking-App'"
+                        >Github</button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='#'"
+                        >Live Demo</button>
                     </div>
                 </div>
                 <div class="details-container color-container">
@@ -522,20 +1076,14 @@
                             class="project-img"
                         />
                     </div>
-                    <h2 class="experience-sub-title project-title">GhauGhau - Pet Management System</h2>
+                    <h2 style="margin: 1rem 0;">GhauGhau - Pet Management System</h2>
                     <div class="btn-container">
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/csfahim007'"
-                        >
-                        Github
-                        </button>
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://ghaughau-mliw.vercel.app/'"
-                        >
-                        Live Demo
-                        </button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://github.com/csfahim007'"
+                        >Github</button>
+                        <button class="btn btn-color-2 project-btn"
+                        onclick="location.href='https://ghaughau-mliw.vercel.app/'"
+                        >Live Demo</button>
                     </div>
                 </div>
                 <div class="details-container color-container">
@@ -546,41 +1094,30 @@
                             class="project-img"
                         />
                     </div>
-                    <h2 class="experience-sub-title project-title">Trip Planner - Travel Planning App</h2>
+                    <h2 style="margin: 1rem 0;">Trip Planner - Travel Planning App</h2>
                     <div class="btn-container">
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/csfahim007/Trip-Planner'"
-                        >
-                        Github
-                        </button>
-                        <button 
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='#'"
-                        >
-                        Live Demo
-                        </button>
+                        <button class="btn btn-color-2 project-btn" 
+                        onclick="location.href='https://github.com/csfahim007/Trip-Planner'" 
+                        >Github</button>
+                        <button class="btn btn-color-2 project-btn" 
+                        onclick="location.href='#'"
+                        >Live Demo</button>
                     </div>
                 </div>
             </div>
         </div>
-        <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#hobbies'"
-        />
+        <div class="arrow" onclick="location.href='./#hobbies'">⬇</div>
     </section>
 
     <section id="hobbies">
         <p class="section__text__p1">Beyond</p>
         <h1 class="title">My Interests & Hobbies</h1>
         <div class="experience-details-container">
-            <div class="about-containers">
+            <div class="about-containers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 2rem;">
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Technical Interests</h2>
+                    <h2 style="margin-bottom: 1rem;">Technical Interests</h2>
                     <div class="text-container">
-                        <ul style="text-align: left; padding-left: 2rem; font-size: 1.3rem; line-height: 1.8; color: rgb(85,85,85);">
+                        <ul style="text-align: left; padding-left: 2rem; font-size: 1.3rem; line-height: 1.8; color: rgb(200,200,200);">
                             <li><strong>Coding & Web Development:</strong> Passionate about creating innovative web applications and exploring new frameworks</li>
                             <li><strong>Software Engineering:</strong> Interested in scalable architecture and best practices</li>
                             <li><strong>Blockchain Technology:</strong> Silver Winner in Blockchain Olympiad 2024</li>
@@ -589,9 +1126,9 @@
                     </div>
                 </div>
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Personal Interests</h2>
+                    <h2 style="margin-bottom: 1rem;">Personal Interests</h2>
                     <div class="text-container">
-                        <ul style="text-align: left; padding-left: 2rem; font-size: 1.3rem; line-height: 1.8; color: rgb(85,85,85);">
+                        <ul style="text-align: left; padding-left: 2rem; font-size: 1.3rem; line-height: 1.8; color: rgb(200,200,200);">
                             <li><strong>Traveling:</strong> Love exploring new places and cultures, which inspires creativity in my projects</li>
                             <li><strong>Sketching:</strong> Artistic hobby that helps improve design thinking and user interface aesthetics</li>
                             <li><strong>Continuous Learning:</strong> Always eager to learn new technologies and improve existing skills</li>
@@ -604,9 +1141,9 @@
         <div class="experience-details-container" style="margin-top: 2rem;">
             <div class="about-containers">
                 <div class="details-container">
-                    <h2 class="experience-sub-title">Current Research & Achievements</h2>
+                    <h2 style="margin-bottom: 1rem;">Current Research & Achievements</h2>
                     <div class="text-container">
-                        <ul style="text-align: left; padding-left: 2rem; font-size: 1.3rem; line-height: 1.8; color: rgb(85,85,85);">
+                        <ul style="text-align: left; padding-left: 2rem; font-size: 1.3rem; line-height: 1.8; color: rgb(200,200,200);">
                             <li><strong>Thesis Work:</strong> Deep Learning Lung Cancer Detection Using Computer Vision</li>
                             <li><strong>Blockchain Olympiad:</strong> Silver Winner 2024 - Competitive Programming & Blockchain Development</li>
                             <li><strong>Leadership Development:</strong> Youth Leadership Certificate from Brac University</li>
@@ -615,12 +1152,7 @@
                 </div>
             </div>
         </div>
-        <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#contact'"
-        />
+        <div class="arrow" onclick="location.href='./#contact'">⬇</div>
     </section>
     
     <section id="contact">
@@ -628,23 +1160,16 @@
         <h1 class="title">Contact Me</h1>
         <div class="contact-info-upper-container">
             <div class="contact-info-container">
-                <img 
-                    src="./assets/email.png"
-                    alt="Email Icon"
-                    class="icon contact-icon email-icon"
-                />
+                <div class="icon">📧</div>
                 <p><a href="mailto:csfahim007@gmail.com">csfahim007@gmail.com</a></p>
             </div>
             <div class="contact-info-container">
-                <img 
-                    src="./assets/linkedin.png"
-                    alt="linkedin Icon"
-                    class="icon contact-icon"
-                />
+                <div class="icon">💼</div>
                 <p><a href="https://www.linkedin.com/in/fahim-afk/">LinkedIn</a></p>
             </div>
         </div>
     </section>
+    
     <footer>
         <nav>
             <div class="nav-links-container">
@@ -658,8 +1183,150 @@
                 </ul>
             </div>
         </nav>
-        <p>Copyright &#169; 2024 Ahmed Fahim Kabir. All Rights Reserved</p>
+        <p>Copyright © 2024 Ahmed Fahim Kabir. All Rights Reserved</p>
     </footer>
-    <script src="script.js"></script>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random positioning
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                
+                // Random size
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.querySelector('.menu-links');
+            const icon = document.querySelector('.hamburger-icon');
+            
+            menu.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+
+        // Smooth scrolling enhancement
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for scroll animations
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(50px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
+
+        // Mouse movement parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                const speed = (index % 5 + 1) * 0.5;
+                const x = (mouseX - 0.5) * speed;
+                const y = (mouseY - 0.5) * speed;
+                
+                particle.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Dynamic navigation background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(0, 0, 0, 0.9)';
+                nav.style.backdropFilter = 'blur(20px)';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.05)';
+                nav.style.backdropFilter = 'blur(20px)';
+            }
+        });
+
+        // Initialize particles on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // Add initial animation to profile section
+            setTimeout(() => {
+                document.querySelector('#profile').style.opacity = '1';
+                document.querySelector('#profile').style.transform = 'translateY(0)';
+            }, 100);
+        });
+
+        // Button hover effects
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Project card 3D tilt effect
+        document.querySelectorAll('.color-container').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+        });
+    </script>
 </body>
 </html>
